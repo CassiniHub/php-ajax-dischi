@@ -44,19 +44,31 @@
         <div class="row">
             <div class="col-12 text-center mt-3">
                 <h1>Dischi</h1>
-                <div v-for="disco in dischi">
-                    <img :src="disco.poster" alt="">
+                <select v-model="selectedGenre">
+                    <option
+                        value="All"
+                        selected>
+                        All
+                    </option>
+                    <option
+                        v-for="genre in getGenres"
+                        :value="genre">
+                        {{ genre }}
+                    </option>
+                </select>
+                <div v-for="album in albums">
+                    <img :src="album.poster" alt="">
                     <h2>
-                        {{ disco.title }}
+                        {{ album.title }}
                     </h2>
                     <p>
-                        {{ disco.author }}
+                        {{ album.author }}
                     </p>
                     <p>
-                        {{ disco.genre }}
+                        {{ album.genre }}
                     </p>
                     <p>
-                        {{ disco.year }}
+                        {{ album.year }}
                     </p>
                 </div>
             </div>
