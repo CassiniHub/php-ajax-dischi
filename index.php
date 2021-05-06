@@ -51,7 +51,7 @@
                         All
                     </option>
                     <option
-                        v-for="genre in getGenres"
+                        v-for="genre in genres"
                         :value="genre">
                         {{ genre }}
                     </option>

@@ -74,5 +74,18 @@
         ]
     ];
 
-    echo json_encode($db);
+    $genre = $_GET['genre'];
+    $filteredAlbums = [];
+
+    if ($genre === 'All' || $genre === null) {
+        echo json_encode($db);
+    } else {
+        foreach ($db as $album) {
+            if ($genre === $album['genre']) {
+                array_push($filteredAlbums, $album);
+            }
+        }
+
+        echo json_encode($filteredAlbums);
+    }
 ?>

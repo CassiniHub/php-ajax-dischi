@@ -3,24 +3,39 @@ function init() {
         el: '#app',
         data: {
             albums: [],
-            selectedGenre: 'All',
-            filteredAlbums: []
+            genres: [],
+            selectedGenre: 'All'
         },
         mounted () {
-            axios.get('data.php')
+            axios.get('data.php', {
+                params: {
+                    'genre': this.selectedGenre
+                }
+            })
                 .then(r => {
                     this.albums = r.data;
+                    this.getGenres();
                 })
                 .catch(e => {
                     console.log(e);
-                })
+                });
         },
 
         methods: {
-    
-        },
+            filteredAlbums: function () {
+                axios.get('data.php', {
+                    params: {
+                        'genre': this.selectedGenre
+                    }
+                })
+                    .then(r => {
+                        this.albums = r.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    })
+            },
 
-        computed: {
             getGenres: function () {
                 let albums = this.albums;
                 const genres = [];
@@ -32,21 +47,13 @@ function init() {
                         genres.push(album.genre);
                     }
                 }
-                return genres;
-            },
+                this.genres = genres;
+            }
+        },
 
-            filteredAlbums: function () {
-                axios.get('filtered.php'), {
-                    params: {
-                        'genre': this.selectedGenre
-                    }
-                }
-                    .then(r => {
-                        this.filteredAlbums = r.data;
-                    })
-                    .catch(e => {
-                        console.log(e);
-                    })
+        watch: {
+            selectedGenre: function () {
+                this.filteredAlbums();
             }
         }
     });
