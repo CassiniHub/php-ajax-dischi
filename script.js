@@ -3,13 +3,13 @@ function init() {
         el: '#app',
         data: {
             albums: [],
-            selectedGenre: 'All'
+            selectedGenre: 'All',
+            filteredAlbums: []
         },
         mounted () {
             axios.get('data.php')
                 .then(r => {
                     this.albums = r.data;
-
                 })
                 .catch(e => {
                     console.log(e);
@@ -17,7 +17,7 @@ function init() {
         },
 
         methods: {
-
+    
         },
 
         computed: {
@@ -34,6 +34,20 @@ function init() {
                 }
                 return genres;
             },
+
+            filteredAlbums: function () {
+                axios.get('filtered.php'), {
+                    params: {
+                        'genre': this.selectedGenre
+                    }
+                }
+                    .then(r => {
+                        this.filteredAlbums = r.data;
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    })
+            }
         }
     });
 };
